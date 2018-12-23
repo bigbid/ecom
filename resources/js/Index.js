@@ -9,16 +9,24 @@ export default class Index extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            authenticated: false
+            guest: true
         };
+
+        this.updateAuthenticateion = this.updateAuthenticateion.bind(this);
+    }
+
+    updateAuthenticateion(guest){
+        this.setState({
+            guest: guest
+        })
     }
 
     render() {
 
         return (
             <div>
-                <TopNav authenticated={this.state.authenticated}/>
-                <div className="mt-5">
+                <TopNav updateAuthenticateion={this.updateAuthenticateion}/>
+                <div className="mt-5 p-2">
                     <div className="row">
                         <div className="col-2" style={{borderRight: "1px solid #cccccc"}}>
                             Left

@@ -1,24 +1,48 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 import Authenticate from "../components/authenticate"
 
-export default class TopNav extends Component {
+import * as Helper from "../helpers"
+
+export default class TopNav extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            authenticated: false
+            guest: true
+        };
+
+        this.updateAuthenticateion = this.updateAuthenticateion.bind(this);
+        this.logout = this.logout.bind(this);
+    }
+
+    componentDidMount() {
+        let token = Helper.getCookie("token");
+        if (token !== "") {
+            console.log(token);
+            this.updateAuthenticateion(false)
         }
     }
 
-    authenticate(auth){
-        this.props.authenticated(auth)
+    updateAuthenticateion(guest) {
+        this.props.updateAuthenticateion(guest);
+        this.setState({
+            guest: guest
+        })
+    }
+
+    logout(){
+        Helper.delete_cookie("token");
+        this.setState({
+            guest: true
+        })
     }
 
 
     render() {
         return (
-                <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+            <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+                <div className="container">
                     <a className="navbar-brand" href="#">LOGO</a>
                     <button className="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -28,13 +52,16 @@ export default class TopNav extends Component {
 
                     <form className="form-inline my-2 my-lg-0">
                         <input className="form-control mr-sm-2" type="search" placeholder="Search" name="search"
-                               aria-label="Search" />
+                               aria-label="Search"/>
                     </form>
 
-                    <div className="collapse navbar-collapse"  id="navbarSupportedContent">
-                        <ul className="nav navbar-nav ml-auto px-lg-5">
+                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul className="nav navbar-nav ml-auto">
                             <li className="nav-item">
-                                <a className="nav-link" href="#" data-toggle="modal" data-target="#exampleModal">Login / Signup</a>
+                                {this.state.guest &&
+                                <a className="nav-link" href="#" data-toggle="modal" data-target="#authenticationModal">Login
+                                    / Signup</a>}
+                                {!this.state.guest && <a className="nav-link" href="#">My Account</a>}
                             </li>
                             <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -50,11 +77,18 @@ export default class TopNav extends Component {
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" href="#">About</a>
+
                             </li>
+                            {!this.state.guest &&
+                            <li className="nav-item">
+                                <a className="nav-link" href="#" onClick={this.logout}>Logout</a>
+                            </li>
+                            }
                         </ul>
                     </div>
-                    <Authenticate authenticated={this.props.authenticate} />
-                </nav>
+                </div>
+                <Authenticate updateAuthenticateion={this.updateAuthenticateion}/>
+            </nav>
         );
     }
 }

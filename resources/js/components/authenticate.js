@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-export default class Authenticate extends Component {
+export default class Authenticate extends React.Component {
 
     constructor(props){
         super(props);
@@ -8,7 +8,9 @@ export default class Authenticate extends Component {
             name: '',
             email: '',
             password: '',
-            passwordx: ''
+            passwordx: '',
+
+            error: ""
         };
 
         this.register = this.register.bind(this);
@@ -29,6 +31,8 @@ export default class Authenticate extends Component {
     register(event){
         event.preventDefault();
 
+        let that = this;
+
         (async () => {
             const rawResponse = await fetch('http://localhost:8888/api/register', {
                 method: 'POST',
@@ -41,10 +45,24 @@ export default class Authenticate extends Component {
             const content = await rawResponse.json();
 
             if(content.success){
-                this.saveAccessToken(content.success.token);
-                this.props.authenticated(true);
-            }else{
+                that.saveAccessToken(content.success.token);
+                that.props.updateAuthenticateion(false);
 
+                $("#authenticationModal").modal('hide');
+            }else if(content.error){
+                let error = Object.keys(content.error).map(function(key) {
+                    return <div key={key} className="alert alert-danger" role="alert">{content.error[key]}</div>
+                });
+
+                that.setState({
+                    error: error
+                });
+
+            }else {
+                let error = <div className="alert alert-danger" role="alert">Error while registration, Please write us.</div>
+                that.setState({
+                    error: error
+                });
             }
             console.log(content);
         })();
@@ -53,11 +71,49 @@ export default class Authenticate extends Component {
 
     login(event){
         event.preventDefault();
-        console.log("Login!!");
+
+        event.preventDefault();
+
+        let that = this;
+
+        (async () => {
+            const rawResponse = await fetch('http://localhost:8888/api/login', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({email: this.state.email, password: this.state.password })
+            });
+            const content = await rawResponse.json();
+
+            if(content.success){
+                that.saveAccessToken(content.success.token);
+                that.props.updateAuthenticateion(false);
+
+                $("#authenticationModal").modal('hide');
+            }else if(content.error){
+                let error = Object.keys(content.error).map(function(key) {
+                    return <div key={key} className="alert alert-danger" role="alert">{content.error[key]}</div>
+                });
+
+                that.setState({
+                    error: error
+                });
+
+            }else {
+                let error = <div className="alert alert-danger" role="alert">Error while registration, Please write us.</div>
+                that.setState({
+                    error: error
+                });
+            }
+            console.log(content);
+        })();
     }
 
     saveAccessToken(token){
-        var d = new Date();
+        let exdays = 30;
+        let d = new Date();
         d.setTime(d.getTime() + (exdays*24*60*60*1000));
         var expires = "expires="+ d.toUTCString();
         document.cookie =  "token=" + token + ";" + expires + ";path=/";
@@ -66,7 +122,7 @@ export default class Authenticate extends Component {
 
     render() {
         return (
-            <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog"
+            <div className="modal fade" id="authenticationModal" tabIndex="-1" role="dialog"
                  aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog" role="document">
 
@@ -108,14 +164,14 @@ export default class Authenticate extends Component {
                                                    placeholder="Password" name="password"
                                                    value={this.state.password} onChange={this.handleChange}/>
                                         </div>
-                                        <button type="button" className="btn btn-primary float-right">Login</button>
+                                        <button type="submit" className="btn btn-primary float-right">Login</button>
                                     </form>
                                 </div>
                                 <div className="tab-pane fade" id="signup" role="tabpanel"
                                      aria-labelledby="signup-tab">
                                     <form onSubmit={this.register}>
                                         <div className="form-group">
-
+                                            {this.state.error}
                                             <label htmlFor="signupInputName">Name</label>
                                             <input type="text" className="form-control" id="signupInputName"
                                                    aria-describedby="emailHelp" placeholder="John Doe" name="name"
