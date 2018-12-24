@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {BrowserRouter as Router, Route, Link} from "react-router-dom";
+import browserHistory, {BrowserRouter as Router, Route, Link} from "react-router-dom";
 
 import Authenticate from "../components/authenticate"
 
@@ -10,11 +10,14 @@ export default class TopNav extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            guest: true
+            guest: true,
+            search: ''
         };
 
         this.updateAuthenticateion = this.updateAuthenticateion.bind(this);
         this.logout = this.logout.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.search = this.search.bind(this);
     }
 
     componentDidMount() {
@@ -39,6 +42,24 @@ export default class TopNav extends React.Component {
         })
     }
 
+    search(event){
+        event.preventDefault();
+        let path = "/search/"+ this.state.search
+        window.location = path
+        // history.pushState({urlPath: path},"", path);
+    }
+
+    handleChange(event){
+
+        let stateObject = function() {
+            let returnObj = {};
+            returnObj[this.target.name] = this.target.value;
+            return returnObj;
+        }.bind(event)();
+
+        this.setState(stateObject);
+    }
+
 
     render() {
         return (
@@ -53,8 +74,9 @@ export default class TopNav extends React.Component {
                         <span className="navbar-toggler-icon"></span>
                     </button>
 
-                    <form className="form-inline my-2 my-lg-0">
+                    <form className="form-inline my-2 my-lg-0" onSubmit={this.search}>
                         <input className="form-control mr-sm-2" type="search" placeholder="Search" name="search"
+                               onChange={this.handleChange}
                                aria-label="Search"/>
                     </form>
 

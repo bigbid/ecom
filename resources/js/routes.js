@@ -11,6 +11,11 @@ export default  routes = [
         exact: true
     },
     {
+        path: "/search/:query",
+        component: Home,
+        exact: true
+    },
+    {
         IndexRoute: "/",
         exact: true,
         component: Home

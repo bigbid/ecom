@@ -29,7 +29,7 @@ export default class TopNav extends Component {
         }
 
         if(this.props.search){
-            query += "similar="+this.props.search
+            query += "search="+this.props.search
         }
 
         fetch("http://localhost:8888/api/products?"+query)

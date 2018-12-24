@@ -64730,9 +64730,9 @@ function (_Component) {
         });
       }
 
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_layouts_topNav__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_layouts_topNav__WEBPACK_IMPORTED_MODULE_3__["default"], _extends({}, this.props, {
         updateAuthenticateion: this.updateAuthenticateion
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "mt-5 p-2 container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Switch"], null, _routes__WEBPACK_IMPORTED_MODULE_4__["default"].map(function (route, i) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(RouteWithSubRoutes, _extends({
@@ -65309,7 +65309,7 @@ function (_Component) {
       }
 
       if (this.props.search) {
-        query += "similar=" + this.props.search;
+        query += "search=" + this.props.search;
       }
 
       fetch("http://localhost:8888/api/products?" + query).then(function (response) {
@@ -65565,10 +65565,13 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(TopNav).call(this, props));
     _this.state = {
-      guest: true
+      guest: true,
+      search: ''
     };
     _this.updateAuthenticateion = _this.updateAuthenticateion.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.logout = _this.logout.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.search = _this.search.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
   }
 
@@ -65599,6 +65602,24 @@ function (_React$Component) {
       });
     }
   }, {
+    key: "search",
+    value: function search(event) {
+      event.preventDefault();
+      var path = "/search/" + this.state.search;
+      window.location = path; // history.pushState({urlPath: path},"", path);
+    }
+  }, {
+    key: "handleChange",
+    value: function handleChange(event) {
+      var stateObject = function () {
+        var returnObj = {};
+        returnObj[this.target.name] = this.target.value;
+        return returnObj;
+      }.bind(event)();
+
+      this.setState(stateObject);
+    }
+  }, {
     key: "render",
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
@@ -65619,12 +65640,14 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "navbar-toggler-icon"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-        className: "form-inline my-2 my-lg-0"
+        className: "form-inline my-2 my-lg-0",
+        onSubmit: this.search
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         className: "form-control mr-sm-2",
         type: "search",
         placeholder: "Search",
         name: "search",
+        onChange: this.handleChange,
         "aria-label": "Search"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "collapse navbar-collapse",
@@ -65746,7 +65769,9 @@ function (_Component) {
         }
       }, "Left"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-10"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_productGrid__WEBPACK_IMPORTED_MODULE_1__["default"], null)));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_productGrid__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        search: this.props.match.params.query
+      })));
     }
   }]);
 
@@ -65907,6 +65932,10 @@ var routes = [];
 /* harmony default export */ __webpack_exports__["default"] = (routes = [{
   path: "/product/:id/:name",
   component: _pages_product__WEBPACK_IMPORTED_MODULE_2__["default"],
+  exact: true
+}, {
+  path: "/search/:query",
+  component: _pages_home__WEBPACK_IMPORTED_MODULE_1__["default"],
   exact: true
 }, {
   IndexRoute: "/",

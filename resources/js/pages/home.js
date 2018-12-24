@@ -3,6 +3,10 @@ import ProductGrid from "../components/productGrid";
 
 
 export default class Home extends Component {
+
+
+
+
     render() {
         return (
             <div className="row">
@@ -10,7 +14,7 @@ export default class Home extends Component {
                     Left
                 </div>
                 <div className="col-10">
-                    <ProductGrid/>
+                    <ProductGrid search={this.props.match.params.query}/>
                 </div>
             </div>
         );

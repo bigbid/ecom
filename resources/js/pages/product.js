@@ -32,7 +32,7 @@ export default class Product extends Component {
         }else {
             id = this.props.match.params.id;
         }
-        
+
         fetch("http://localhost:8888/api/product/" + id)
             .then(response => response.json())
             .then(data => this.setState({product: data}))

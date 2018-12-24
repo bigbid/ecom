@@ -48,7 +48,7 @@ export default class Index extends Component {
         return (
             <Router>
                 <div>
-                    <TopNav updateAuthenticateion={this.updateAuthenticateion}/>
+                    <TopNav {...this.props} updateAuthenticateion={this.updateAuthenticateion}/>
                     <div className="mt-5 p-2 container">
                         <Switch>
                         {routes.map((route, i) => (
