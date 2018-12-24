@@ -13,5 +13,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $casts = ["images" => "json"];
+    protected $casts = ["images" => "json", "tags" => "json"];
 }

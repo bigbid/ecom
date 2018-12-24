@@ -65293,11 +65293,26 @@ function (_Component) {
       this.getProducts();
     }
   }, {
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(props) {
+      this.getProducts();
+    }
+  }, {
     key: "getProducts",
     value: function getProducts() {
       var _this2 = this;
 
-      fetch("http://localhost:8888/api/products").then(function (response) {
+      var query = "";
+
+      if (this.props.similar) {
+        query += "similar=" + this.props.similar;
+      }
+
+      if (this.props.search) {
+        query += "similar=" + this.props.search;
+      }
+
+      fetch("http://localhost:8888/api/products?" + query).then(function (response) {
         return response.json();
       }).then(function (data) {
         return _this2.setState({
@@ -65313,12 +65328,15 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.state.products.map(function (product, index) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-          key: index,
+      var that = this;
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, this.state.products.map(function (product, index) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "col-3 p-2",
+          key: index
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           to: "/product/" + product.id + "/" + _helpers__WEBPACK_IMPORTED_MODULE_2__["slug"](product.name)
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "col-3 p-2"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           src: product.images[0],
           alt: "",
@@ -65386,22 +65404,21 @@ function (_Component) {
       active: 0
     };
     _this.selectImage = _this.selectImage.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.update = _this.update.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
   }
 
   _createClass(ProductPreview, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      console.log("Mounted Images");
-      console.log(this.props);
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(props) {
+      this.update(props);
     }
   }, {
-    key: "componentDidReciveProps",
-    value: function componentDidReciveProps(props) {
-      this.state = {
-        images: this.props.images
-      };
-      console.log(this.props.images);
+    key: "update",
+    value: function update(props) {
+      this.setState({
+        images: props.images
+      });
     }
   }, {
     key: "selectImage",
@@ -65510,8 +65527,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TopNav; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components_authenticate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/authenticate */ "./resources/js/components/authenticate.js");
-/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../helpers */ "./resources/js/helpers.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+/* harmony import */ var _components_authenticate__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/authenticate */ "./resources/js/components/authenticate.js");
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../helpers */ "./resources/js/helpers.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -65529,6 +65547,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 
 
 
@@ -65556,7 +65575,7 @@ function (_React$Component) {
   _createClass(TopNav, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var token = _helpers__WEBPACK_IMPORTED_MODULE_2__["getCookie"]("token");
+      var token = _helpers__WEBPACK_IMPORTED_MODULE_3__["getCookie"]("token");
 
       if (token !== "") {
         console.log(token);
@@ -65574,7 +65593,7 @@ function (_React$Component) {
   }, {
     key: "logout",
     value: function logout() {
-      _helpers__WEBPACK_IMPORTED_MODULE_2__["delete_cookie"]("token");
+      _helpers__WEBPACK_IMPORTED_MODULE_3__["delete_cookie"]("token");
       this.setState({
         guest: true
       });
@@ -65586,9 +65605,9 @@ function (_React$Component) {
         className: "navbar navbar-expand-lg navbar-dark bg-primary"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "container"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-        className: "navbar-brand",
-        href: "#"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: "/",
+        className: "navbar-brand"
       }, "LOGO"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "navbar-toggler",
         type: "button",
@@ -65657,7 +65676,7 @@ function (_React$Component) {
         className: "nav-link",
         href: "#",
         onClick: this.logout
-      }, "Logout"))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_authenticate__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      }, "Logout"))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_authenticate__WEBPACK_IMPORTED_MODULE_2__["default"], {
         updateAuthenticateion: this.updateAuthenticateion
       }));
     }
@@ -65751,6 +65770,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_productPreview__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/productPreview */ "./resources/js/components/productPreview.js");
+/* harmony import */ var _components_productGrid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/productGrid */ "./resources/js/components/productGrid.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -65772,6 +65792,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 
 
 
+
 var Product =
 /*#__PURE__*/
 function (_Component) {
@@ -65784,7 +65805,6 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Product).call(this, props));
     _this.state = {
-      product_id: _this.props.match.params.id,
       product: {}
     };
     _this.fetchProductDetails = _this.fetchProductDetails.bind(_assertThisInitialized(_assertThisInitialized(_this)));
@@ -65794,15 +65814,27 @@ function (_Component) {
   _createClass(Product, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      console.log("ok");
       this.fetchProductDetails();
     }
   }, {
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(props) {
+      this.fetchProductDetails(props);
+    }
+  }, {
     key: "fetchProductDetails",
-    value: function fetchProductDetails() {
+    value: function fetchProductDetails(props) {
       var _this2 = this;
 
-      fetch("http://localhost:8888/api/product/" + this.state.product_id).then(function (response) {
+      var id = "";
+
+      if (props) {
+        id = props.match.params.id;
+      } else {
+        id = this.props.match.params.id;
+      }
+
+      fetch("http://localhost:8888/api/product/" + id).then(function (response) {
         return response.json();
       }).then(function (data) {
         return _this2.setState({
@@ -65818,7 +65850,7 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-4"
@@ -65826,7 +65858,26 @@ function (_Component) {
         images: this.state.product.images
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-8"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, this.state.product.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, this.state.product.brand)));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, this.state.product.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, this.state.product.brand), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        style: {
+          fontSize: "30px",
+          color: "green"
+        }
+      }, "\u20B9", this.state.product.price), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.state.product.description)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-6"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "button",
+        className: "btn btn-primary btn-lg btn-block"
+      }, "Buy")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-6"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "button",
+        className: "btn btn-primary btn-lg btn-block"
+      }, "Add to cart"))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.match.params.id && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_productGrid__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        similar: this.props.match.params.id
+      }));
     }
   }]);
 

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 
 import Authenticate from "../components/authenticate"
 
@@ -43,7 +44,9 @@ export default class TopNav extends React.Component {
         return (
             <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
                 <div className="container">
-                    <a className="navbar-brand" href="#">LOGO</a>
+                    <Link to="/" className="navbar-brand">
+                        LOGO
+                    </Link>
                     <button className="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">

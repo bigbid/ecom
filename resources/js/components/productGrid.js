@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {  BrowserRouter as Router, Route, Link } from "react-router-dom";
+import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 
 import * as Helper from "../helpers";
 
@@ -18,27 +18,45 @@ export default class TopNav extends Component {
         this.getProducts();
     }
 
+    componentWillReceiveProps(props){
+        this.getProducts();
+    }
+
     getProducts() {
-        fetch("http://localhost:8888/api/products")
+        let query = "";
+        if(this.props.similar){
+            query += "similar="+this.props.similar
+        }
+
+        if(this.props.search){
+            query += "similar="+this.props.search
+        }
+
+        fetch("http://localhost:8888/api/products?"+query)
             .then(response => response.json())
             .then(data => this.setState({products: data}))
             .catch(error => this.setState({error, isLoading: false}));
     }
 
+
+
     render() {
+        let that = this;
         return (
-            <div>
+            <div className="row">
                 {this.state.products.map(function (product, index) {
                     return (
-                        <Link key={index} to={"/product/"+ product.id + "/" + Helper.slug(product.name)}>
-                            <div className="col-3 p-2">
+                        <div className="col-3 p-2" key={index}>
+                            <Link to={"/product/" + product.id + "/" + Helper.slug(product.name)}>
+
                                 <img src={product.images[0]} alt="" style={{maxWidth: "100%", maxHeight: "300px"}}/>
                                 <br/>
                                 {product.name}
                                 <br/>
                                 {product.price}
-                            </div>
-                        </Link>
+
+                            </Link>
+                        </div>
                     );
                 })}
             </div>

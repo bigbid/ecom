@@ -12,19 +12,17 @@ export default class ProductPreview extends Component {
         };
 
         this.selectImage = this.selectImage.bind(this);
+        this.update = this.update.bind(this);
     }
 
-    componentDidMount(){
-        console.log("Mounted Images");
-        console.log(this.props)
+    componentWillReceiveProps(props){
+        this.update(props)
     }
 
-    componentDidReciveProps(props){
-        this.state = {
-            images: this.props.images
-        };
-
-        console.log(this.props.images)
+    update(props){
+        this.setState({
+            images: props.images
+        })
     }
 
     selectImage(index){
