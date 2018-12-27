@@ -64930,7 +64930,7 @@ function (_React$Component) {
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return fetch('http://localhost:8888/api/register', {
+                return fetch('/api/register', {
                   method: 'POST',
                   headers: {
                     'Accept': 'application/json',
@@ -65028,7 +65028,7 @@ function (_React$Component) {
               case 0:
                 _context2.prev = 0;
                 _context2.next = 3;
-                return fetch('http://localhost:8888/api/login', {
+                return fetch('/api/login', {
                   method: 'POST',
                   headers: {
                     'Accept': 'application/json',
@@ -65357,7 +65357,7 @@ function (_Component) {
         query += "search=" + this.props.search;
       }
 
-      fetch("http://localhost:8888/api/products?" + query).then(function (response) {
+      fetch("/api/products?" + query).then(function (response) {
         return response.json();
       }).then(function (data) {
         return _this2.setState({

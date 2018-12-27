@@ -32,7 +32,7 @@ export default class TopNav extends Component {
             query += "search="+this.props.search
         }
 
-        fetch("http://localhost:8888/api/products?"+query)
+        fetch("/api/products?"+query)
             .then(response => response.json())
             .then(data => this.setState({products: data}))
             .catch(error => this.setState({error, isLoading: false}));

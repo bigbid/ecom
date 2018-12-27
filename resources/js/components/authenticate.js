@@ -36,7 +36,7 @@ export default class Authenticate extends React.Component {
 
         (async () => {
             try {
-                const rawResponse = await fetch('http://localhost:8888/api/register', {
+                const rawResponse = await fetch('/api/register', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
@@ -99,7 +99,7 @@ export default class Authenticate extends React.Component {
 
         (async () => {
             try{
-                const rawResponse = await fetch('http://localhost:8888/api/login', {
+                const rawResponse = await fetch('/api/login', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
