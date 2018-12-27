@@ -35,42 +35,59 @@ export default class Authenticate extends React.Component {
         let that = this;
 
         (async () => {
-            const rawResponse = await fetch('http://localhost:8888/api/register', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({name: this.state.name, email: this.state.email, password: this.state.password, c_password: this.state.passwordx })
-            });
-            const content = await rawResponse.json();
+            try {
+                const rawResponse = await fetch('http://localhost:8888/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: this.state.name,
+                        email: this.state.email,
+                        password: this.state.password,
+                        c_password: this.state.passwordx
+                    })
+                });
+                const content = await rawResponse.json();
 
-            if(content.success){
-                that.saveAccessToken(content.success.token);
-                that.props.updateAuthenticateion(false);
+                if (content.success) {
+                    that.saveAccessToken(content.success.token);
+                    that.props.updateAuthenticateion(false);
 
-                $("#authenticationModal").modal('hide');
-            }else if(content.error){
-                let error;
-                if(typeof content.error === 'string' || content.error instanceof String){
-                    error = <div className="alert alert-danger" role="alert">{content.error}</div>
-                }else {
-                    error = Object.keys(content.error).map(function (key) {
-                        return <div key={key} className="alert alert-danger" role="alert">{content.error[key]}</div>
+                    $("#authenticationModal").modal('hide');
+                } else if (content.error) {
+                    let error;
+                    if (typeof content.error === 'string' || content.error instanceof String) {
+                        error = <div className="alert alert-danger" role="alert">{content.error}</div>
+                    } else {
+                        error = Object.keys(content.error).map(function (key) {
+                            return <div key={key} className="alert alert-danger" role="alert">{content.error[key]}</div>
+                        });
+                    }
+
+                    that.setState({
+                        error_r: error
+                    });
+
+                } else {
+                    let error = <div className="alert alert-danger" role="alert">Error while registration, Please write
+                        us.</div>
+
+                    console.log("Here");
+                    that.setState({
+                        error_r: error
                     });
                 }
+            }catch (e) {
+                let error = <div className="alert alert-danger" role="alert">Error while registration, Please write
+                    us.</div>
 
-                that.setState({
-                    error_r: error
-                });
-
-            }else {
-                let error = <div className="alert alert-danger" role="alert">Error while registration, Please write us.</div>
+                console.log("Here");
                 that.setState({
                     error_r: error
                 });
             }
-            console.log(content);
         })();
 
     }
@@ -81,42 +98,51 @@ export default class Authenticate extends React.Component {
         let that = this;
 
         (async () => {
-            const rawResponse = await fetch('http://localhost:8888/api/login', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({email: this.state.email, password: this.state.password })
-            });
-            const content = await rawResponse.json();
+            try{
+                const rawResponse = await fetch('http://localhost:8888/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({email: this.state.email, password: this.state.password })
+                });
+                const content = await rawResponse.json();
 
-            if(content.success){
-                that.saveAccessToken(content.success.token);
-                that.props.updateAuthenticateion(false);
+                if(content.success){
+                    that.saveAccessToken(content.success.token);
+                    that.props.updateAuthenticateion(false);
 
-                $("#authenticationModal").modal('hide');
-            }else if(content.error){
-                let error;
-                if(typeof content.error === 'string' || content.error instanceof String){
-                    error = <div className="alert alert-danger" role="alert">{content.error}</div>
+                    $("#authenticationModal").modal('hide');
+                }else if(content.error){
+                    let error;
+                    if(typeof content.error === 'string' || content.error instanceof String){
+                        error = <div className="alert alert-danger" role="alert">{content.error}</div>
+                    }else {
+                        error = Object.keys(content.error).map(function (key) {
+                            return <div key={key} className="alert alert-danger" role="alert">{content.error[key]}</div>
+                        });
+                    }
+
+                    that.setState({
+                        error_l: error
+                    });
+
                 }else {
-                    error = Object.keys(content.error).map(function (key) {
-                        return <div key={key} className="alert alert-danger" role="alert">{content.error[key]}</div>
+                    let error = <div className="alert alert-danger" role="alert">Error while registration, Please write us.</div>
+                    that.setState({
+                        error_l: error
                     });
                 }
+            }catch (e) {
+                let error = <div className="alert alert-danger" role="alert">Error while registration, Please write
+                    us.</div>
 
-                that.setState({
-                    error_l: error
-                });
-
-            }else {
-                let error = <div className="alert alert-danger" role="alert">Error while registration, Please write us.</div>
+                console.log("Here");
                 that.setState({
                     error_l: error
                 });
             }
-            console.log(content);
         })();
     }
 

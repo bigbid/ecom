@@ -64922,13 +64922,14 @@ function (_React$Component) {
       _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var rawResponse, content, error, _error;
+        var rawResponse, content, error, _error, _error2;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                _context.prev = 0;
+                _context.next = 3;
                 return fetch('http://localhost:8888/api/register', {
                   method: 'POST',
                   headers: {
@@ -64943,12 +64944,12 @@ function (_React$Component) {
                   })
                 });
 
-              case 2:
+              case 3:
                 rawResponse = _context.sent;
-                _context.next = 5;
+                _context.next = 6;
                 return rawResponse.json();
 
-              case 5:
+              case 6:
                 content = _context.sent;
 
                 if (content.success) {
@@ -64979,19 +64980,33 @@ function (_React$Component) {
                     className: "alert alert-danger",
                     role: "alert"
                   }, "Error while registration, Please write us.");
+                  console.log("Here");
                   that.setState({
                     error_r: _error
                   });
                 }
 
-                console.log(content);
+                _context.next = 15;
+                break;
 
-              case 8:
+              case 10:
+                _context.prev = 10;
+                _context.t0 = _context["catch"](0);
+                _error2 = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+                  className: "alert alert-danger",
+                  role: "alert"
+                }, "Error while registration, Please write us.");
+                console.log("Here");
+                that.setState({
+                  error_r: _error2
+                });
+
+              case 15:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this);
+        }, _callee, this, [[0, 10]]);
       }))();
     }
   }, {
@@ -65005,13 +65020,14 @@ function (_React$Component) {
       _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var rawResponse, content, error, _error2;
+        var rawResponse, content, error, _error3, _error4;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.next = 2;
+                _context2.prev = 0;
+                _context2.next = 3;
                 return fetch('http://localhost:8888/api/login', {
                   method: 'POST',
                   headers: {
@@ -65024,12 +65040,12 @@ function (_React$Component) {
                   })
                 });
 
-              case 2:
+              case 3:
                 rawResponse = _context2.sent;
-                _context2.next = 5;
+                _context2.next = 6;
                 return rawResponse.json();
 
-              case 5:
+              case 6:
                 content = _context2.sent;
 
                 if (content.success) {
@@ -65056,23 +65072,36 @@ function (_React$Component) {
                     error_l: error
                   });
                 } else {
-                  _error2 = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+                  _error3 = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
                     className: "alert alert-danger",
                     role: "alert"
                   }, "Error while registration, Please write us.");
                   that.setState({
-                    error_l: _error2
+                    error_l: _error3
                   });
                 }
 
-                console.log(content);
+                _context2.next = 15;
+                break;
 
-              case 8:
+              case 10:
+                _context2.prev = 10;
+                _context2.t0 = _context2["catch"](0);
+                _error4 = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+                  className: "alert alert-danger",
+                  role: "alert"
+                }, "Error while registration, Please write us.");
+                console.log("Here");
+                that.setState({
+                  error_l: _error4
+                });
+
+              case 15:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee2, this, [[0, 10]]);
       }))();
     }
   }, {
