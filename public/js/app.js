@@ -64891,7 +64891,8 @@ function (_React$Component) {
       email: '',
       password: '',
       passwordx: '',
-      error: ""
+      error_r: "",
+      error_l: ""
     };
     _this.register = _this.register.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.login = _this.login.bind(_assertThisInitialized(_assertThisInitialized(_this)));
@@ -64955,15 +64956,23 @@ function (_React$Component) {
                   that.props.updateAuthenticateion(false);
                   $("#authenticationModal").modal('hide');
                 } else if (content.error) {
-                  error = Object.keys(content.error).map(function (key) {
-                    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-                      key: key,
+                  if (typeof content.error === 'string' || content.error instanceof String) {
+                    error = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
                       className: "alert alert-danger",
                       role: "alert"
-                    }, content.error[key]);
-                  });
+                    }, content.error);
+                  } else {
+                    error = Object.keys(content.error).map(function (key) {
+                      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+                        key: key,
+                        className: "alert alert-danger",
+                        role: "alert"
+                      }, content.error[key]);
+                    });
+                  }
+
                   that.setState({
-                    error: error
+                    error_r: error
                   });
                 } else {
                   _error = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -64971,7 +64980,7 @@ function (_React$Component) {
                     role: "alert"
                   }, "Error while registration, Please write us.");
                   that.setState({
-                    error: _error
+                    error_r: _error
                   });
                 }
 
@@ -64990,7 +64999,6 @@ function (_React$Component) {
     value: function login(event) {
       var _this3 = this;
 
-      event.preventDefault();
       event.preventDefault();
       var that = this;
 
@@ -65029,15 +65037,23 @@ function (_React$Component) {
                   that.props.updateAuthenticateion(false);
                   $("#authenticationModal").modal('hide');
                 } else if (content.error) {
-                  error = Object.keys(content.error).map(function (key) {
-                    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-                      key: key,
+                  if (typeof content.error === 'string' || content.error instanceof String) {
+                    error = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
                       className: "alert alert-danger",
                       role: "alert"
-                    }, content.error[key]);
-                  });
+                    }, content.error);
+                  } else {
+                    error = Object.keys(content.error).map(function (key) {
+                      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+                        key: key,
+                        className: "alert alert-danger",
+                        role: "alert"
+                      }, content.error[key]);
+                    });
+                  }
+
                   that.setState({
-                    error: error
+                    error_l: error
                   });
                 } else {
                   _error2 = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -65045,7 +65061,7 @@ function (_React$Component) {
                     role: "alert"
                   }, "Error while registration, Please write us.");
                   that.setState({
-                    error: _error2
+                    error_l: _error2
                   });
                 }
 
@@ -65130,7 +65146,7 @@ function (_React$Component) {
         onSubmit: this.login
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "form-group"
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+      }, this.state.error_l, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
         htmlFor: "loginInputEmail1"
       }, "Email address"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "email",
@@ -65168,7 +65184,7 @@ function (_React$Component) {
         onSubmit: this.register
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "form-group"
-      }, this.state.error, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+      }, this.state.error_r, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
         htmlFor: "signupInputName"
       }, "Name"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "text",
@@ -65963,8 +65979,8 @@ var routes = [];
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/dev/Documents/Github/ecom/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/dev/Documents/Github/ecom/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/dev/Documents/test/ecom/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/dev/Documents/test/ecom/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -10,7 +10,8 @@ export default class Authenticate extends React.Component {
             password: '',
             passwordx: '',
 
-            error: ""
+            error_r: "",
+            error_l: ""
         };
 
         this.register = this.register.bind(this);
@@ -50,18 +51,23 @@ export default class Authenticate extends React.Component {
 
                 $("#authenticationModal").modal('hide');
             }else if(content.error){
-                let error = Object.keys(content.error).map(function(key) {
-                    return <div key={key} className="alert alert-danger" role="alert">{content.error[key]}</div>
-                });
+                let error;
+                if(typeof content.error === 'string' || content.error instanceof String){
+                    error = <div className="alert alert-danger" role="alert">{content.error}</div>
+                }else {
+                    error = Object.keys(content.error).map(function (key) {
+                        return <div key={key} className="alert alert-danger" role="alert">{content.error[key]}</div>
+                    });
+                }
 
                 that.setState({
-                    error: error
+                    error_r: error
                 });
 
             }else {
                 let error = <div className="alert alert-danger" role="alert">Error while registration, Please write us.</div>
                 that.setState({
-                    error: error
+                    error_r: error
                 });
             }
             console.log(content);
@@ -70,8 +76,6 @@ export default class Authenticate extends React.Component {
     }
 
     login(event){
-        event.preventDefault();
-
         event.preventDefault();
 
         let that = this;
@@ -93,18 +97,23 @@ export default class Authenticate extends React.Component {
 
                 $("#authenticationModal").modal('hide');
             }else if(content.error){
-                let error = Object.keys(content.error).map(function(key) {
-                    return <div key={key} className="alert alert-danger" role="alert">{content.error[key]}</div>
-                });
+                let error;
+                if(typeof content.error === 'string' || content.error instanceof String){
+                    error = <div className="alert alert-danger" role="alert">{content.error}</div>
+                }else {
+                    error = Object.keys(content.error).map(function (key) {
+                        return <div key={key} className="alert alert-danger" role="alert">{content.error[key]}</div>
+                    });
+                }
 
                 that.setState({
-                    error: error
+                    error_l: error
                 });
 
             }else {
                 let error = <div className="alert alert-danger" role="alert">Error while registration, Please write us.</div>
                 that.setState({
-                    error: error
+                    error_l: error
                 });
             }
             console.log(content);
@@ -149,6 +158,7 @@ export default class Authenticate extends React.Component {
                                      aria-labelledby="login-tab">
                                     <form onSubmit={this.login}>
                                         <div className="form-group">
+                                            {this.state.error_l}
                                             <label htmlFor="loginInputEmail1">Email address</label>
                                             <input type="email" className="form-control" id="loginInputEmail1"
                                                    aria-describedby="emailHelp" placeholder="Enter email" name="email"
@@ -171,7 +181,7 @@ export default class Authenticate extends React.Component {
                                      aria-labelledby="signup-tab">
                                     <form onSubmit={this.register}>
                                         <div className="form-group">
-                                            {this.state.error}
+                                            {this.state.error_r}
                                             <label htmlFor="signupInputName">Name</label>
                                             <input type="text" className="form-control" id="signupInputName"
                                                    aria-describedby="emailHelp" placeholder="John Doe" name="name"
